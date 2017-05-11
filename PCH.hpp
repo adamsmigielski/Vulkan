@@ -41,5 +41,9 @@
 
 #include <iostream>
 #include <memory>
+#include <vector>
+#include <string>
+
+#include <vulkan\vulkan.h>
 
 #endif /* VULKAN_PCH_HPP */

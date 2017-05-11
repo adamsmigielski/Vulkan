@@ -32,46 +32,12 @@
 #ifndef VULKAN_LOADER_HPP
 #define VULKAN_LOADER_HPP
 
-#include <vulkan\vulkan.h>
-
 namespace Vulkan
 {
-    struct Entry_functions
-    {
-        PFN_vkGetInstanceProcAddr                  GetInstanceProcAddr;
-        PFN_vkCreateInstance                       CreateInstance;
-        PFN_vkEnumerateInstanceExtensionProperties EnumerateInstanceExtensionProperties;
-        PFN_vkEnumerateInstanceLayerProperties     EnumerateInstanceLayerProperties;
-    };
-
-    struct Instance_functions
-    {
-        PFN_vkDestroyInstance                        DestroyInstance;
-        PFN_vkEnumeratePhysicalDevices               EnumeratePhysicalDevices;
-        PFN_vkGetPhysicalDeviceFeatures              GetPhysicalDeviceFeatures;
-        PFN_vkGetPhysicalDeviceFormatProperties      GetPhysicalDeviceFormatProperties;
-        PFN_vkGetPhysicalDeviceImageFormatProperties GetPhysicalDeviceImageFormatProperties;
-        PFN_vkGetPhysicalDeviceProperties            GetPhysicalDeviceProperties;
-        PFN_vkGetPhysicalDeviceQueueFamilyProperties GetPhysicalDeviceQueueFamilyProperties;
-        PFN_vkGetPhysicalDeviceMemoryProperties      GetPhysicalDeviceMemoryProperties;
-        PFN_vkGetDeviceProcAddr                      GetDeviceProcAddr;
-        PFN_vkCreateDevice                           CreateDevice;
-        PFN_vkEnumerateDeviceExtensionProperties     EnumerateDeviceExtensionProperties;
-        PFN_vkEnumerateDeviceLayerProperties         EnumerateDeviceLayerProperties;
-    };
-
     class Loader
     {
     public:
         virtual Platform::proc_t Get_proc_address(const char * name) = 0;
-
-        Platform::int32 Load_entry_functions(
-            Entry_functions & out_functions) const;
-
-        Platform::int32 Load_instance_functions(
-                  VkInstance           instance,
-            const Entry_functions    & entry_functions,
-                  Instance_functions & out_functions) const;
     };
 
 #if 0
