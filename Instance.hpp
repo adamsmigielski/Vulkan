@@ -26,7 +26,7 @@
 
 /**
 * @author Adam Œmigielski
-* @file YYY.hpp
+* @file Instance.hpp
 **/
 
 #ifndef VULKAN_INSTANCE_HPP
@@ -39,8 +39,11 @@ namespace Vulkan
     namespace Version_1_0_0
     {
         class Implementation;
+        class Device;
 
-        class Instance : public Containers::IntrusiveList::Node<Instance>
+        class Instance
+            : public Containers::IntrusiveList::Node<Instance>
+            , public Containers::IntrusiveList::List<Device>
         {
         public:
             struct Functions

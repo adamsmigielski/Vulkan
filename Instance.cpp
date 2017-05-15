@@ -26,13 +26,14 @@
 
 /**
 * @author Adam Œmigielski
-* @file YYY.cpp
+* @file Instance.cpp
 **/
 
 #include "PCH.hpp"
 
 #include "Instance.hpp"
 
+#include "Device.hpp"
 #include "Implementation.hpp"
 
 
@@ -81,14 +82,19 @@ namespace Vulkan
 
         void Instance::Release()
         {
+            auto parent = Parent();
+            if (nullptr != parent)
+            {
+                parent->Detach(this);
+            }
+
             if (VK_NULL_HANDLE != m_instance)
             {
                 m_Functions.DestroyInstance(
                     m_instance /* VkInstance                   instance*/,
                     nullptr    /* const VkAllocationCallbacks* pAllocator */);
+                m_instance = VK_NULL_HANDLE;
             }
-
-            Parent()->Detach(this);
         }
 
         static Platform::proc_t load_instance_function(

@@ -26,36 +26,60 @@
 
 /**
 * @author Adam Œmigielski
-* @file YYY.hpp
+* @file Device.cpp
 **/
 
-#ifndef VULKAN_LOADER_HPP
-#define VULKAN_LOADER_HPP
+#include "PCH.hpp"
+
+#include "Device.hpp"
+
 
 namespace Vulkan
 {
-    class Loader
+    namespace Version_1_0_0
     {
-    public:
-        virtual Platform::proc_t Get_proc_address(const char * name) = 0;
-    };
+        Device::Device()
+            : m_device(VK_NULL_HANDLE)
+        {
+        }
 
-#if 0
+        Device::~Device()
+        {
+            Release();
+        }
 
-    /* Callbacks */
-    extern PFN_vkAllocationFunction AllocationFunction;
-    extern PFN_vkReallocationFunction ReallocationFunction;
-    extern PFN_vkFreeFunction FreeFunction;
-    extern PFN_vkInternalAllocationNotification InternalAllocationNotification;
-    extern PFN_vkInternalFreeNotification InternalFreeNotification;
+        Platform::int32 Device::Init(VkDevice device)
+        {
+            if (VK_NULL_HANDLE == device)
+            {
+                ASSERT(0);
+                return Utilities::Invalid_parameter;
+            }
 
-    /* Global entry points */
+            if (VK_NULL_HANDLE != m_device)
+            {
+                ASSERT(0);
+                return Utilities::Invalid_object;
+            }
 
-    /* Instance entry points */
-    
+            return Load_functions(m_device);
+        }
 
+        void Device::Release()
+        {
+            auto parent = Parent();
+            if (nullptr != parent)
+            {
+                parent->Detach(this);
+            }
 
-#endif /* 0 */
+            if (VK_NULL_HANDLE != m_device)
+            {
+                m_Functions.DestroyDevice(
+                    m_device /* VkDevice                     device */,
+                    nullptr  /* const VkAllocationCallbacks* pAllocator */);
+                m_device = VK_NULL_HANDLE;
+            }
+        }
+    }
 }
-
-#endif VULKAN_LOADER_HPP
