@@ -59,7 +59,8 @@ namespace Vulkan
 
         Platform::int32 Instance::Init(
                   VkInstance                 instance,
-            const std::vector<std::string> & extensions)
+            const std::vector<std::string> & extensions,
+                  Implementation           & parent)
         {
             if (VK_NULL_HANDLE == instance)
             {
@@ -75,6 +76,7 @@ namespace Vulkan
 
 
             m_instance = instance;
+            parent.Attach(this);
 
 
             return Load_functions(extensions);
@@ -199,6 +201,74 @@ namespace Vulkan
             }
 
             return Utilities::Success;
+        }
+
+        Platform::int32 Instance::Enumerate_physical_devices(std::vector<VkPhysicalDevice> & out_devices) const
+        {
+            VkResult result;
+            uint32_t n_physical_devices = 0;
+
+            result = m_Functions.EnumeratePhysicalDevices(m_instance, &n_physical_devices, nullptr);
+            if (VK_SUCCESS != result)
+            {
+                ASSERT(0);
+                ERRLOG("Failed to get number of physical devices: " << Implementation::VkEnum_to_string(result));
+                return Utilities::Failure;
+            }
+
+            out_devices.resize(n_physical_devices);
+            result = m_Functions.EnumeratePhysicalDevices(m_instance, &n_physical_devices, out_devices.data());
+            if (VK_SUCCESS != result)
+            {
+                ASSERT(0);
+                ERRLOG("Failed to get physical devices: " << Implementation::VkEnum_to_string(result));
+                return Utilities::Failure;
+            }
+
+            return Utilities::Success;
+        }
+
+        Platform::int32 Instance::Get_physical_device_properties(
+            VkPhysicalDevice            physical_devices,
+            VkPhysicalDeviceProperties & out_properties) const
+        {
+            if (VK_NULL_HANDLE == physical_devices)
+            {
+                ASSERT(0);
+                ERRLOG("Invalid parameter");
+                return Utilities::Invalid_parameter;
+            }
+
+            m_Functions.GetPhysicalDeviceProperties(physical_devices, &out_properties);
+
+            return Utilities::Success;
+        }
+
+
+
+        Device * Instance::Create_device()
+        {
+            VkPhysicalDevice physical_device;
+            //VkDeviceCreateInfo create_info = {
+            //    VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO  /* VkStructureType                    sType */,
+            //    nullptr                               /* const void*                        pNext */,
+            //    0                                     /* VkDeviceCreateFlags                flags */,
+            //                                          /* uint32_t                           queueCreateInfoCount */,
+            //                                          /* const VkDeviceQueueCreateInfo*     pQueueCreateInfos */,
+            //                                          /* uint32_t                           enabledLayerCount */,
+            //                                          /* const char* const*                 ppEnabledLayerNames */,
+            //                                          /* uint32_t                           enabledExtensionCount */,
+            //                                          /* const char* const*                 ppEnabledExtensionNames */,
+            //                                          /* const VkPhysicalDeviceFeatures*    pEnabledFeatures */
+            //};
+            //
+            //m_Functions.CreateDevice(
+            //    /* VkPhysicalDevice physicalDevice */,
+            //    /* const VkDeviceCreateInfo* pCreateInfo */,
+            //    /* const VkAllocationCallbacks* pAllocator */,
+            //    /* VkDevice* pDevice */);
+
+            return nullptr;
         }
     }
 }

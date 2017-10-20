@@ -34,6 +34,8 @@
 
 #include <Utilities\containers\IntrusiveList.hpp>
 
+#include "Device.hpp"
+
 namespace Vulkan
 {
     namespace Version_1_0_0
@@ -75,7 +77,8 @@ namespace Vulkan
 
             Platform::int32 Init(
                       VkInstance                 instance,
-                const std::vector<std::string> & extensions);
+                const std::vector<std::string> & extensions,
+                      Implementation           & parent);
 
             void Release();
 
@@ -86,6 +89,14 @@ namespace Vulkan
                 VkInstance                      instance,
                 VK_EXT_debug_report_functions & out_functions);
             Platform::int32 Load_functions(const std::vector<std::string> & extensions);
+
+
+            /*  */
+            Platform::int32 Enumerate_physical_devices(std::vector<VkPhysicalDevice> & out_devices) const;
+            Platform::int32 Get_physical_device_properties(
+                VkPhysicalDevice             physical_devices,
+                VkPhysicalDeviceProperties & out_properties) const;
+            Device * Create_device();
 
 
             /*  */

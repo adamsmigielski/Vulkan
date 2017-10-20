@@ -33,37 +33,37 @@
 
 #include "Implementation.hpp"
 #include "Loader.hpp"
-#include "Instance.hpp"
 
 namespace Vulkan
 {
     namespace Version_1_0_0
     {
         Implementation::Implementation()
+            : m_loader(nullptr)
         {
         }
 
         Implementation::~Implementation()
         {
-        
+            Release();
         }
 
         Platform::int32 Implementation::Init(::Vulkan::Loader & loader)
         {
-            if (nullptr != m_loader.get())
+            if (nullptr != m_loader)
             {
                 ASSERT(0);
                 return Utilities::Invalid_object;
             }
 
-            m_loader.reset(&loader);
+            m_loader = &loader;
 
             return Load_functions();
         }
 
         void Implementation::Release()
         {
-            m_loader.release();
+            m_loader = nullptr;
         }
     
         Platform::proc_t load_library_function(Loader * loader, const char * name, bool check)
@@ -110,7 +110,7 @@ namespace Vulkan
         {
             bool check = true;
 
-            out_functions.GetInstanceProcAddr = (PFN_vkGetInstanceProcAddr) load_library_function(m_loader.get(), "vkGetInstanceProcAddr", check);
+            out_functions.GetInstanceProcAddr = (PFN_vkGetInstanceProcAddr) load_library_function(m_loader, "vkGetInstanceProcAddr", check);
 
             out_functions.CreateInstance                       = (PFN_vkCreateInstance)                       load_instance_function(&out_functions, nullptr, "vkCreateInstance"                      , check);
             out_functions.EnumerateInstanceExtensionProperties = (PFN_vkEnumerateInstanceExtensionProperties) load_instance_function(&out_functions, nullptr, "vkEnumerateInstanceExtensionProperties", check);
@@ -238,8 +238,6 @@ namespace Vulkan
                 return nullptr;
             }
 
-            this->Attach(instance.get());
-
 
             VkApplicationInfo application_info = {
                 VK_STRUCTURE_TYPE_APPLICATION_INFO /* sType */,
@@ -306,7 +304,8 @@ namespace Vulkan
 
             auto err = instance->Init(
                 vulkan_instance,
-                extensions_to_enable);
+                extensions_to_enable,
+                *this);
             if (Utilities::Success != err)
             {
                 ERRLOG("Failed to initialize instance: " << VkEnum_to_string(result));
@@ -437,7 +436,7 @@ namespace Vulkan
 
         const Loader * Implementation::Loader() const
         {
-            return m_loader.get();
+            return m_loader;
         }
     }
 }

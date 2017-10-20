@@ -255,7 +255,9 @@ namespace Vulkan
 
             Platform::int32 Load_functions(
                 VkDevice    device,
-                Functions & out_functions);
+                Functions & out_functions) const;
+            Platform::int32 Load_functions();
+
 
 
             const Instance * Get_instance() const;

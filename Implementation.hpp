@@ -35,6 +35,8 @@
 
 #include <Utilities\containers\IntrusiveList.hpp>
 
+#include "Instance.hpp"
+
 
 namespace Vulkan
 {
@@ -42,8 +44,6 @@ namespace Vulkan
 
     namespace Version_1_0_0
     {
-        class Instance;
-
         class Implementation : public Containers::IntrusiveList::List<Instance>
         {
         public:
@@ -106,7 +106,7 @@ namespace Vulkan
 
 
         private:
-            std::auto_ptr<::Vulkan::Loader> m_loader;
+            ::Vulkan::Loader * m_loader;
         };
     }
 }
