@@ -1,6 +1,6 @@
 PROJECT(Vulkan)
 
-INCLUDE_DIRECTORIES(C:\\VulkanSDK\\1.0.39.1\\Include)
+INCLUDE_DIRECTORIES(C:\\VulkanSDK\\1.0.61.1\\Include)
 
 ADD_LIBRARY(Vulkan STATIC
 			Device.cpp
@@ -13,4 +13,4 @@ ADD_LIBRARY(Vulkan STATIC
 			Loader.hpp
 			PCH.cpp
 			PCH.hpp)
-            
+
