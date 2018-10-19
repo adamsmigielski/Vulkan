@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2015 Adam ï¿½migielski
+* Copyright (c) 2015 Adam Œmigielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,43 +25,8 @@
 **/
 
 /**
-* @author Adam ï¿½migielski
-* @file YYY.hpp
+* @author Adam Œmigielski
+* @file PCH.cpp
 **/
 
-#ifndef VULKAN_LOADER_HPP
-#define VULKAN_LOADER_HPP
-
-namespace Vulkan
-{
-    class Loader
-    {
-    public:
-        virtual Platform::int32 Init   (const char * library_path) = 0;
-        virtual void            Release() = 0;
-
-
-        virtual Platform::proc_t Get_proc_address(const char * name) = 0;
-    };
-
-    Loader * Create_loader();
-
-#if 0
-
-    /* Callbacks */
-    extern PFN_vkAllocationFunction AllocationFunction;
-    extern PFN_vkReallocationFunction ReallocationFunction;
-    extern PFN_vkFreeFunction FreeFunction;
-    extern PFN_vkInternalAllocationNotification InternalAllocationNotification;
-    extern PFN_vkInternalFreeNotification InternalFreeNotification;
-
-    /* Global entry points */
-
-    /* Instance entry points */
-
-
-
-#endif /* 0 */
-}
-
-#endif VULKAN_LOADER_HPP
+#include "PCH.hpp"

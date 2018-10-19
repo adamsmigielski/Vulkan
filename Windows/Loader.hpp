@@ -26,42 +26,42 @@
 
 /**
 * @author Adam �migielski
-* @file YYY.hpp
+* @file Loader.hpp
 **/
 
-#ifndef VULKAN_LOADER_HPP
-#define VULKAN_LOADER_HPP
+#ifndef VULKAN_WINDOWS_LOADER_HPP
+#define VULKAN_WINDOWS_LOADER_HPP
+
+#include <Vulkan\Loader.hpp>
+
+namespace Dynamic_library
+{
+    class Library;
+}
+
 
 namespace Vulkan
 {
-    class Loader
+    namespace Windows
     {
-    public:
-        virtual Platform::int32 Init   (const char * library_path) = 0;
-        virtual void            Release() = 0;
+        class Loader : public ::Vulkan::Loader
+        {
+        public:
+
+            Loader();
+
+            virtual ~Loader();
+
+            virtual Platform::int32 Init   (const char * library_path);
+            virtual void            Release();
 
 
-        virtual Platform::proc_t Get_proc_address(const char * name) = 0;
-    };
+            virtual Platform::proc_t Get_proc_address(const char * name);
 
-    Loader * Create_loader();
-
-#if 0
-
-    /* Callbacks */
-    extern PFN_vkAllocationFunction AllocationFunction;
-    extern PFN_vkReallocationFunction ReallocationFunction;
-    extern PFN_vkFreeFunction FreeFunction;
-    extern PFN_vkInternalAllocationNotification InternalAllocationNotification;
-    extern PFN_vkInternalFreeNotification InternalFreeNotification;
-
-    /* Global entry points */
-
-    /* Instance entry points */
-
-
-
-#endif /* 0 */
+        private:
+            Dynamic_library::Library * m_library;
+        };
+    }
 }
 
-#endif VULKAN_LOADER_HPP
+#endif /* VULKAN_WINDOWS_LOADER_HPP */

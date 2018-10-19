@@ -26,42 +26,24 @@
 
 /**
 * @author Adam �migielski
-* @file YYY.hpp
+* @file PCH.hpp
 **/
 
-#ifndef VULKAN_LOADER_HPP
-#define VULKAN_LOADER_HPP
+#ifndef VULKAN_WINDOWS_PCH_HPP
+#define VULKAN_WINDOWS_PCH_HPP
 
-namespace Vulkan
-{
-    class Loader
-    {
-    public:
-        virtual Platform::int32 Init   (const char * library_path) = 0;
-        virtual void            Release() = 0;
+#include <Platform\Platform.hpp>
+//
+#include <Utilities\basic\Assert.hpp>
+#include <Utilities\basic\BreakToDebug.hpp>
+#include <Utilities\basic\ErrorCodes.hpp>
+#include <Utilities\basic\Log.hpp>
+//
+#include <iostream>
+//#include <memory>
+//#include <vector>
+//#include <string>
+//
+//#include <vulkan\vulkan.h>
 
-
-        virtual Platform::proc_t Get_proc_address(const char * name) = 0;
-    };
-
-    Loader * Create_loader();
-
-#if 0
-
-    /* Callbacks */
-    extern PFN_vkAllocationFunction AllocationFunction;
-    extern PFN_vkReallocationFunction ReallocationFunction;
-    extern PFN_vkFreeFunction FreeFunction;
-    extern PFN_vkInternalAllocationNotification InternalAllocationNotification;
-    extern PFN_vkInternalFreeNotification InternalFreeNotification;
-
-    /* Global entry points */
-
-    /* Instance entry points */
-
-
-
-#endif /* 0 */
-}
-
-#endif VULKAN_LOADER_HPP
+#endif /* VULKAN_WINDOWS_PCH_HPP */

@@ -1,3 +1,9 @@
+# Configuration
+IF(WIN32)
+	ADD_SUBDIRECTORY(Windows)
+ENDIF(WIN32)
+
+
 PROJECT(Vulkan)
 
 INCLUDE_DIRECTORIES(C:\\VulkanSDK\\1.0.61.1\\Include)

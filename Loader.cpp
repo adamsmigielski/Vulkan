@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2015 Adam Œmigielski
+* Copyright (c) 2015 Adam ï¿½migielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,7 +25,7 @@
 **/
 
 /**
-* @author Adam Œmigielski
+* @author Adam ï¿½migielski
 * @file YYY.cpp
 **/
 
@@ -253,5 +253,5 @@ namespace Vulkan
     PFN_vkRegisterDisplayEventEXT RegisterDisplayEventEXT;
     PFN_vkGetSwapchainCounterEXT GetSwapchainCounterEXT;
 
-    
+
 }
